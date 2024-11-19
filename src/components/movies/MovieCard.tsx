@@ -19,7 +19,6 @@ const MovieCard = ({ posterImg, title, rating, releaseDate, id }: Props) => {
   const [favorites, setFavorites] = useState<Array<Fav>>([]);
   const [isFavorite, setIsFavorite] = useState(false);
 
-  // Initialize favorites from localStorage and check if this movie is already a favorite
   useEffect(() => {
     const storedFavorites = localStorage.getItem("favorites");
     const parsedFavorites = storedFavorites ? JSON.parse(storedFavorites) : [];

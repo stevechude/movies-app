@@ -14,8 +14,8 @@ export const searchMovies = async (
       `https://api.themoviedb.org/3/search/movie`,
       {
         params: {
-          api_key: "abc5f689798415ed3cbe004c78a01b2b", // Include your API key here
-          query: query.trim(), // Pass the query string as a key-value pair
+          api_key: "abc5f689798415ed3cbe004c78a01b2b",
+          query: query.trim(),
         },
       }
     );

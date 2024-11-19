@@ -68,7 +68,6 @@ const MovieDetailPage = () => {
       <p className="text-lg mb-4">
         <strong>Overview:</strong> {movieDetails?.overview}
       </p>
-      {/* Add other details as needed */}
     </div>
   );
 };
