@@ -16,7 +16,7 @@ type Props = {
 
 const MovieCard = ({ posterImg, title, rating, releaseDate, id }: Props) => {
   const calcRating = Math.ceil(rating * 10);
-  const [_, setFavorites] = useState<Array<Fav>>([]);
+  const [favorites, setFavorites] = useState<Array<Fav>>([]);
   const [isFavorite, setIsFavorite] = useState(false);
 
   // Initialize favorites from localStorage and check if this movie is already a favorite
@@ -31,6 +31,8 @@ const MovieCard = ({ posterImg, title, rating, releaseDate, id }: Props) => {
     e.preventDefault();
     e.stopPropagation();
 
+    console.log("favs==", favorites);
+
     const newFavorite = {
       title,
       posterImg,
@@ -40,22 +42,19 @@ const MovieCard = ({ posterImg, title, rating, releaseDate, id }: Props) => {
     };
 
     setFavorites((prevFavorites) => {
-      // Check if the movie is already in favorites
       const isAlreadyFavorite = prevFavorites.some(
         (movie: Fav) => movie.id === id
       );
 
       const updatedFavorites = isAlreadyFavorite
-        ? prevFavorites.filter((movie: Fav) => movie.id !== id) // Remove from favorites if it exists
-        : [...prevFavorites, newFavorite]; // Add to favorites if it doesn't exist
+        ? prevFavorites.filter((movie: Fav) => movie.id !== id)
+        : [...prevFavorites, newFavorite];
 
-      // Update localStorage with the new favorites array
       localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
 
-      // Toggle the favorite state
       setIsFavorite(!isAlreadyFavorite);
 
-      return updatedFavorites; // Return the new favorites array to update state
+      return updatedFavorites;
     });
   };
 
