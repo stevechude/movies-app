@@ -3,7 +3,6 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { LuLayoutDashboard } from "react-icons/lu";
-import { MdOutlineContactSupport } from "react-icons/md";
 import { usePathname } from "next/navigation";
 import { FaHeart } from "react-icons/fa";
 
@@ -11,7 +10,7 @@ const SideBar = () => {
   const pathname = usePathname();
 
   return (
-    <div className="hidden md:block w-[200px] h-screen bg-gradient-to-b from-[#0096C4] to-[#0F3659]">
+    <div className="hidden md:block w-[200px] h-screen bg-gradient-to-b from-slate-400 to-slate-600">
       <div className="flex flex-col gap-4 w-full h-full my-4 items-center">
         <div className="border-4 rounded-full border-white w-fit">
           <div className="">
@@ -30,17 +29,10 @@ const SideBar = () => {
         </Link>
         <Link
           href={"/favorites"}
-          className={pathname.includes(`about`) ? "focused" : "links"}
+          className={pathname.includes(`favorites`) ? "focused" : "links"}
         >
           <FaHeart />
           <p>Favorites</p>
-        </Link>
-        <Link
-          href={"/contact"}
-          className={pathname.includes(`contact`) ? "focused" : "links"}
-        >
-          <MdOutlineContactSupport />
-          <p>Contact</p>
         </Link>
       </div>
     </div>

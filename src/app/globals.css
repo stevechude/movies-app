@@ -21,9 +21,9 @@ body {
 } */
 
 .focused {
-  @apply bg-white text-[#0096c4] rounded-r-[30px] font-bold text-base w-full flex items-center gap-4 text-center pl-5 py-3;
+  @apply bg-white text-black rounded-r-[30px] font-bold text-base w-full flex items-center gap-4 text-center pl-5 py-3;
 }
 
 .links {
-  @apply w-full flex items-center gap-4 text-center text-white font-bold py-3 hover:bg-white hover:text-[#0096c4] hover:rounded-r-2xl pl-5;
+  @apply w-full flex items-center gap-4 text-center text-white font-bold py-3 hover:bg-white hover:text-black hover:rounded-r-2xl pl-5;
 }

@@ -1,14 +1,50 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { TfiMenuAlt } from "react-icons/tfi";
 import { FaWindowClose } from "react-icons/fa";
 import Link from "next/link";
 import { IoSearch } from "react-icons/io5";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { useDebounce } from "@/hooks/useDebounce";
+import {
+  setLoading,
+  setSearchData,
+  setSearchQuery,
+} from "@/redux/features/movieSlice";
+import { searchMovies } from "@/services/search-movie";
+import { useQuery } from "@tanstack/react-query";
+import { MovieApiResponse } from "@/types/movie";
 
 const Header = () => {
+  const { searchQuery } = useAppSelector((state) => state.movieSlice);
   const [openTab, setOpenTab] = useState(false);
+  const debouncedSearchTerm = useDebounce(searchQuery);
+  const dispatch = useAppDispatch();
+  const { data: searchData, isLoading } = useQuery<MovieApiResponse>({
+    queryKey: ["search-movies", debouncedSearchTerm],
+    queryFn: () => searchMovies(debouncedSearchTerm),
+  });
+  // console.log("header search data==", searchData);
+
+  useEffect(() => {
+    if (isLoading) {
+      dispatch(setLoading(true));
+    } else {
+      dispatch(setLoading(false));
+    }
+    if (searchData) {
+      dispatch(setSearchData(searchData?.results));
+      dispatch(setLoading(false));
+    }
+  }, [searchData, isLoading]);
+
+  const handleSearchQuery = (e: any) => {
+    const query = e.target.value;
+    dispatch(setSearchQuery(query));
+  };
+
   return (
-    <div className="h-20 lg:h-16 w-full bg-white shadow-md text-[#0096c4] flex justify-between items-center">
+    <div className="h-20 lg:h-16 w-full bg-white shadow-md text-[#0096c4] flex justify-between items-center fixed">
       <div className="md:hidden flex flex-col gap-1 w-full">
         <div className="px-3 w-full flex items-center justify-between relative">
           <TfiMenuAlt onClick={() => setOpenTab(true)} size={20} />
@@ -42,13 +78,6 @@ const Header = () => {
                 >
                   Favorites
                 </Link>
-                <Link
-                  href={"/contact"}
-                  onClick={() => setOpenTab(false)}
-                  className="border-b border-white"
-                >
-                  Contact
-                </Link>
               </div>
             </div>
           ) : (
@@ -60,6 +89,8 @@ const Header = () => {
             <input
               type="text"
               placeholder="search movies..."
+              value={searchQuery}
+              onChange={handleSearchQuery}
               className="w-full h-full pl-2 outline-none"
             />
             <IoSearch />
@@ -68,7 +99,7 @@ const Header = () => {
       </div>
 
       {/* desk */}
-      <div className="hidden md:flex w-full items-center justify-between px-4">
+      <div className="hidden md:flex w-fit gap-40 items-center justify-between px-4">
         <h2 className="text-lg md:text-xl lg:text-2xl font-semibold">
           Movies App
         </h2>
@@ -79,6 +110,8 @@ const Header = () => {
             <input
               type="text"
               placeholder="search movies..."
+              value={searchQuery}
+              onChange={handleSearchQuery}
               className="w-full h-full pl-2 outline-none"
             />
             <IoSearch />
