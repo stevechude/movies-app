@@ -12,3 +12,11 @@ export interface MovieApiResponse {
   total_pages: number;
   total_results: number;
 }
+
+export interface Fav {
+  title: string;
+  posterImg: string;
+  rating: number;
+  releaseDate: string;
+  id: number;
+}

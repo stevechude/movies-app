@@ -19,7 +19,7 @@ export const searchMovies = async (
         },
       }
     );
-    console.log(response);
+    // console.log(response);
     return response.data;
   } catch (error) {
     console.error("Error fetching search results:", error);

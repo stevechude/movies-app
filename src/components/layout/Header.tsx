@@ -36,9 +36,9 @@ const Header = () => {
       dispatch(setSearchData(searchData?.results));
       dispatch(setLoading(false));
     }
-  }, [searchData, isLoading]);
+  }, [searchData, isLoading, dispatch]);
 
-  const handleSearchQuery = (e: any) => {
+  const handleSearchQuery = (e: React.ChangeEvent<HTMLInputElement>) => {
     const query = e.target.value;
     dispatch(setSearchQuery(query));
   };

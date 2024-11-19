@@ -1,12 +1,13 @@
 "use client";
 import { getStoredFavorites } from "@/hooks/getStoredFavorites";
+import { Fav } from "@/types/movie";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { FaHeart } from "react-icons/fa";
 
 const FavoritesPage = () => {
-  const [myFavs, setMyFavs] = useState<Array<any>>([]);
+  const [myFavs, setMyFavs] = useState<Array<Fav>>([]);
   useEffect(() => {
     const storedFavs = getStoredFavorites();
     if (storedFavs) {
@@ -17,7 +18,10 @@ const FavoritesPage = () => {
   console.log("my favs==", myFavs);
 
   // Function to remove a favorite
-  const removeFavorite = (e: any, id: number) => {
+  const removeFavorite = (
+    e: React.MouseEvent<HTMLButtonElement>,
+    id: number
+  ) => {
     e.preventDefault();
     e.stopPropagation();
 
@@ -30,7 +34,7 @@ const FavoritesPage = () => {
     <div className="bg-white rounded-lg h-[85vh] w-full mt-20 lg:mt-16 overflow-y-auto">
       <div className="p-2 md:p-4 lg:p-8 flex flex-wrap lg:justify-between gap-10">
         {myFavs && myFavs?.length > 0 ? (
-          myFavs?.map((fav: any) => (
+          myFavs?.map((fav: Fav) => (
             <Link
               href={`/${fav?.id}`}
               key={fav?.id}
@@ -62,7 +66,7 @@ const FavoritesPage = () => {
             </Link>
           ))
         ) : (
-          <p>You haven't added any favorite movie!</p>
+          <p>You haven&apos;t added any favorite movie!</p>
         )}
       </div>
     </div>

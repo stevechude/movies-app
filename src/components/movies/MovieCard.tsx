@@ -1,4 +1,5 @@
 "use client";
+import { Fav } from "@/types/movie";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
@@ -15,7 +16,7 @@ type Props = {
 
 const MovieCard = ({ posterImg, title, rating, releaseDate, id }: Props) => {
   const calcRating = Math.ceil(rating * 10);
-  const [favorites, setFavorites] = useState<Array<any>>([]);
+  const [_, setFavorites] = useState<Array<Fav>>([]);
   const [isFavorite, setIsFavorite] = useState(false);
 
   // Initialize favorites from localStorage and check if this movie is already a favorite
@@ -23,10 +24,10 @@ const MovieCard = ({ posterImg, title, rating, releaseDate, id }: Props) => {
     const storedFavorites = localStorage.getItem("favorites");
     const parsedFavorites = storedFavorites ? JSON.parse(storedFavorites) : [];
     setFavorites(parsedFavorites);
-    setIsFavorite(parsedFavorites.some((movie: any) => movie.id === id));
+    setIsFavorite(parsedFavorites.some((movie: Fav) => movie.id === id));
   }, [id]);
 
-  const addToFavorite = (e: any) => {
+  const addToFavorite = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     e.stopPropagation();
 
@@ -41,11 +42,11 @@ const MovieCard = ({ posterImg, title, rating, releaseDate, id }: Props) => {
     setFavorites((prevFavorites) => {
       // Check if the movie is already in favorites
       const isAlreadyFavorite = prevFavorites.some(
-        (movie: any) => movie.id === id
+        (movie: Fav) => movie.id === id
       );
 
       const updatedFavorites = isAlreadyFavorite
-        ? prevFavorites.filter((movie: any) => movie.id !== id) // Remove from favorites if it exists
+        ? prevFavorites.filter((movie: Fav) => movie.id !== id) // Remove from favorites if it exists
         : [...prevFavorites, newFavorite]; // Add to favorites if it doesn't exist
 
       // Update localStorage with the new favorites array

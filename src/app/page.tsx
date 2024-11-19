@@ -3,14 +3,14 @@ import Loader from "@/components/Loader";
 import MovieCard from "@/components/movies/MovieCard";
 import { useAppSelector } from "@/redux/hooks";
 import { fetchMovieList } from "@/services/fetch-movies";
-import { MovieApiResponse } from "@/types/movie";
+import { Movie, MovieApiResponse } from "@/types/movie";
 import { useQuery } from "@tanstack/react-query";
 
 export default function Home() {
   const { searchQuery, loading, searchData } = useAppSelector(
     (state) => state.movieSlice
   );
-  const { data, isLoading, error } = useQuery<MovieApiResponse>({
+  const { data, isLoading } = useQuery<MovieApiResponse>({
     queryKey: ["get-movies"],
     queryFn: fetchMovieList,
   });
@@ -25,7 +25,7 @@ export default function Home() {
       ) : (
         <div className="flex flex-wrap gap-8 lg:gap-5 justify-between w-full mt-20 lg:mt-16">
           {movies && movies?.length > 0 ? (
-            movies?.map((movie: any) => (
+            movies?.map((movie: Movie) => (
               <MovieCard
                 key={movie?.id}
                 posterImg={`https://image.tmdb.org/t/p/w500${movie?.poster_path}`}
